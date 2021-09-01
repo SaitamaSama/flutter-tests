@@ -12,8 +12,6 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
-
     return MaterialApp(
       title: 'Woah custom fonts!?',
       theme: ThemeData(
@@ -120,6 +118,73 @@ class _RandomWordsState extends State<RandomWords> {
     Navigator.of(context).push(page);
   }
 
+  void _pushForm() {
+    var page = MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return Scaffold(
+            appBar: AppBar(
+              title: Text('Form'),
+            ),
+            body: Container(
+              padding: EdgeInsets.all(16.0),
+              child: Center(
+                child: Form(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: const Text('Log in to your account',
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold)),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Email',
+                                filled: true,
+                                focusColor: Colors.purple,
+                                prefixIcon: Icon(Icons.email_outlined)),
+                            keyboardType: TextInputType.emailAddress,
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                            ),
+                          )),
+                      Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Password',
+                                filled: true,
+                                focusColor: Colors.purple,
+                                prefixIcon: Icon(Icons.lock_outlined)),
+                            obscureText: true,
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                            ),
+                          )),
+                      ElevatedButton(
+                        child: Text('Submit'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.purple),
+                            enableFeedback: true),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ));
+      },
+    );
+    Navigator.of(context).push(page);
+  }
+
   @override
   Widget build(BuildContext build) {
     return Scaffold(
@@ -143,6 +208,33 @@ class _RandomWordsState extends State<RandomWords> {
           child: Icon(Icons.delete, color: Colors.purple),
           backgroundColor: Colors.white),
       body: _buildSuggestions(),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 60,
+          color: Colors.black,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {},
+                tooltip: 'Home',
+              ),
+              IconButton(
+                icon: Icon(Icons.favorite_border),
+                onPressed: _pushSaved,
+                tooltip: 'Favorites',
+              ),
+              IconButton(
+                icon: Icon(Icons.supervised_user_circle),
+                onPressed: _pushForm,
+                tooltip: 'Form',
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
